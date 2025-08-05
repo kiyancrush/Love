@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>جعبه حلقه الماسی + فشفشه</title>
+  <style>
+    body {
+      direction: rtl;
+      font-family: 'Tahoma', sans-serif;
+      background-color: #ffe6f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .ring-box {
+      width: 160px;
+      height: 100px;
+      position: relative;
+      perspective: 800px;
+      cursor: pointer;
+    }
+
+    .lid {
+      width: 160px;
+      height: 60px;
+      background-color: #c2185b;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 10px 10px 0 0;
+      transform-origin: top center;
+      transition: transform 0.8s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .base {
+      width: 160px;
+      height: 60px;
+      background-color: #f06292;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 15px;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .ring-box.open .lid {
+      transform: rotateX(-70deg);
+    }
+
+    .ring {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border: 4px solid gold;
+      border-radius: 50%;
+      background-color: transparent;
+      margin-top: 5px;
+    }
+
+    .diamond {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(45deg, #ccf, #fff, #ccf);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      box-shadow: 0 0 10px #9cf;
+    }
+
+    #question, #buttons, #response {
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+
+    #buttons button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      min-width: 70px;
+    }
+
+    .yes-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .no-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #response h3 {
+      font-size: 20px;
+      color: #333;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ring-box" id="ringBox">
+    <div class="lid"></div>
+    <div class="base">
+      <div class="ring">
+        <div class="diamond"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="question">
+    <h2>نازنین من رو به عنوان عاشقت قبول می‌کنی؟ 💍💎</h2>
+  </div>
+
+  <div id="buttons">
+    <button class="yes-btn" onclick="acceptLove()">آره</button>
+    <button class="no-btn" onclick="rejectLove()">نه</button>
+  </div>
+
+  <div id="response"></div>
+
+  <!-- 📦 فشفشه -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const ringBox = document.getElementById('ringBox');
+    const question = document.getElementById('question');
+    const buttons = document.getElementById('buttons');
+    const response = document.getElementById('response');
+    let opened = false;
+
+    ringBox.addEventListener('click', () => {
+      if (opened) return;
+      opened = true;
+      ringBox.classList.add('open');
+      setTimeout(() => {
+        question.style.display = 'block';
+        buttons.style.display = 'block';
+      }, 700);
+    });
+
+    function acceptLove() {
+      response.innerHTML = "<h3>بیا پیویم سریع و بهم بگو ❤️</h3>";
+      response.style.display = 'block';
+      launchConfetti();
+    }
+
+    function rejectLove() {
+      response.innerHTML = "<h3>باشه گُلبم شیکست 💔</h3>";
+      response.style.display = 'block';
+    }
+
+    function launchConfetti() {
+      const duration = 2 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+
+</body>
+</html>
